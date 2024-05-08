@@ -1,26 +1,45 @@
 doctype html
-head
+html(lang='en')
+  head
     meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    meta(name='description' content='')
-    meta(name='author' content='Mark Otto, Jacob Thornton, and Bootstrap contributors')
-    meta(name='generator' content='Hugo 0.104.2')
-    title #{ title }
-    link(rel='canonical' href='https://getbootstrap.com/docs/5.2/examples/blog/')
-    link(href='css/app.css' rel='stylesheet')
-    link(href='css/index.css' rel='stylesheet')
-    link(href='/css/blog.css' rel='stylesheet')
-include layouts/header
-main.container
-    include posts/featured
-    .row.g-5
-        include posts/index
-        .col-md-4
-            .position-sticky(style='top: 2rem;')
-                .p-4.mb-3.bg-light.rounded
-                    h4.fst-italic About
-                    p.mb-0
-                        | Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
-                include nav/archives
-                include nav/profile-links
-include layouts/footer
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='Mark Otto, Jacob Thornton, and Bootstrap contributors')
+    meta(name='generator', content='Hugo 0.104.2')
+    title= title
+    link(rel='canonical', href='https://getbootstrap.com/docs/5.2/examples/blog/')
+    link(href='css/app.css', rel='stylesheet')
+    link(href='css/index.css', rel='stylesheet')
+    link(href='/css/blog.css', rel='stylesheet')
+    
+
+  body
+    include layouts/header
+    
+
+    main.container
+      // display featured blog posts
+      include posts/featured
+
+      // display remaining blog posts
+      .row.g-5
+        // loop through remainingPosts and display each post
+        each post in remainingPosts
+          .col-md-8
+            .card.shadow-sm
+              .card-body
+                h2.card-title #{post.title}
+                p.card-text #{post.content}
+                
+
+      // sidebar section
+      .col-md-4
+        .position-sticky(style='top: 2rem;')
+          .p-4.mb-3.bg-light.rounded
+            h4.fst-italic About
+            p.mb-0
+              | Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
+          include nav/archives
+          include nav/profile-links
+
+    include layouts/footer

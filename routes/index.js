@@ -12,12 +12,14 @@ router.get('/', function(req, res, next) {
 
   let posts = JSON.parse(rawdata);
 
-  let featuredPosts = posts.filter('is_featured')
+  // Filter featured posts correctly
+  let featuredPosts = posts.filter(post => post.is_featured);
 
   res.render('blog', {
     title: 'She Code Queens',
     links: navigationLinks,
-    posts: posts
+    posts: posts,
+    featuredPosts: featuredPosts // Pass filtered featured posts to the template
   });
 
 });
