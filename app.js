@@ -25,7 +25,7 @@ app.get('/', function(req, res, next) {
   fs.readFile('./database/posts.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
-      next(createError(500)); // Internal server error
+      next(createError(500)); // internal server error
       return;
     }
 
