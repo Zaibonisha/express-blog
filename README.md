@@ -1,7 +1,7 @@
 # Project Name
 
 ## Description
-This project is [brief description of what your project does].
+She Code Africa Blog
 
 ## Setup Instructions
 
