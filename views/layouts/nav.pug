@@ -1,5 +1,5 @@
 .nav-scroller.py-1.mb-2
-    nav.nav.d-flex.justify-content-between
-        if links
-            each item in links
-                a.p-2.link-secondary(href=`categories/${item}`) #{ item }
+  nav.nav.d-flex.justify-content-between
+    if links
+      each item in links
+        a.p-2.link-secondary(href=`/${item.toLowerCase().replace(/\s+/g, '-')}`) #{ item }
