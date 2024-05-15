@@ -16,4 +16,4 @@ Before you begin, ensure you have the following installed on your machine:
 
 2. **Start App**
 - npm start
-- navigate to  http://localhost:3000/   
+- navigate to  http://localhost:3000
