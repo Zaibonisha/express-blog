@@ -21,15 +21,18 @@ html(lang='en')
 
       // display remaining blog posts
       .row.g-5
-        // loop through remainingPosts and display each post
-        each post in remainingPosts
-          .col-md-8
-            .card.shadow-sm
-              .card-body
-                h2.card-title #{post.title}
-                p.card-text #{post.content}
-                // Add "Read More" link here
-                a.btn.btn-primary(href=`/posts/${post.id}`) Read More
+        if remainingPosts && remainingPosts.length
+          each post in remainingPosts
+            .col-md-8
+              .card.shadow-sm
+                .card-body
+                  h2.card-title #{post.title}
+                  p.card-text #{post.content}
+                  // Add "Read More" link here
+                  a.btn.btn-primary(href=`/posts/${post.id}`) Read More
+        else
+          .col-md-12
+            p No posts available.
 
       // sidebar section
       .col-md-4
@@ -37,16 +40,18 @@ html(lang='en')
           .p-4.mb-3.bg-light.rounded
             h4.fst-italic About
             p.mb-0
-              // Add the About link here
               a(href='/about') About
               |  Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.
 
           // Add categories section here
           .p-4.mb-3.bg-light.rounded
             h4.fst-italic Categories
-            each category in categories
-              p.mb-0
-                a(href=`/categories/${category}`)= category
+            if categories && categories.length
+              each category in categories
+                p.mb-0
+                  a(href=`/categories/${category}`)= category
+            else
+              p No categories available.
 
           include nav/archives
           include nav/profile-links

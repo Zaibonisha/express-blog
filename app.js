@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fs = require('fs');
 var createError = require('http-errors');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 // Create Express app
 var app = express();
@@ -19,10 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // Route to handle blog data
 app.get('/', function(req, res, next) {
-  // Read data from posts.json
   fs.readFile('./database/posts.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading file:', err);
@@ -30,24 +33,29 @@ app.get('/', function(req, res, next) {
       return;
     }
 
-    const postsData = JSON.parse(data);
+    let postsData;
+    try {
+      postsData = JSON.parse(data);
+    } catch (parseErr) {
+      console.error('Error parsing JSON:', parseErr);
+      next(createError(500)); // Internal server error
+      return;
+    }
 
-    // Extract unique categories
     const categories = Array.from(new Set(postsData.map(post => post.category)));
-
-    // Extract featured blog posts
     const featuredPosts = postsData.filter(post => post.is_featured);
-
-    // Extract remaining blog posts
     const remainingPosts = postsData.filter(post => !post.is_featured);
 
-    // Render the blog page with extracted data
+    console.log('Categories:', categories);
+    console.log('Featured Posts:', featuredPosts);
+    console.log('Remaining Posts:', remainingPosts);
+
     res.render('blog', {
       title: 'She Code Queens',
       links: ['Multiplex PCR', 'Technology', 'Design', 'Culture', 'Business', 'Sports', 'About'],
-      categories: categories,
-      featuredPosts: featuredPosts,
-      remainingPosts: remainingPosts
+      categories: categories || [],
+      featuredPosts: featuredPosts || [],
+      remainingPosts: remainingPosts || []
     });
   });
 });
@@ -89,8 +97,6 @@ app.get('/posts/:postId', function(req, res, next) {
   // Render the blog post detail page
   res.render('postDetail', { post: postData });
 });
-
-
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
